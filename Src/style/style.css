@@ -1,44 +1,63 @@
+/****************************************/
+/*Setting*/
+/****************************************/
+
+/****************Add font from googlefont********************/
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap");
+
+/****************Root********************/
 :root {
-  --font-default: "DM Sans", Arial, Helvetica, sans-serif;
+  --font-default: "DM Sans", sans-serif;
+  --font-roboto: "Roboto", sans-serif; /* add font for copyright*/
   --font-slab: var(--font-default);
   --modal-duration: 0.8s;
+
+  /*ajouter les couleur dans root*/
 }
+
+/*ajouter roboto pour copright & dans modal aussi a voir*/
+
+/****************Page********************/
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-/* Landing Page */
 
+/****************Body********************/
 body {
-  margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
   font-family: var(--font-default);
-  font-size: 18px;
-  max-width: 1300px;
+  font-size: 18px; /*what will be standard font?*/
+  font-weight: 500; /*what will be standard font?*/
+  max-width: 1300px; /*or more*/
   margin: 0 auto;
 }
+/****************Text********************/
 
+/*ajouter text et font size*/
 p {
   margin-bottom: 0;
   padding: 0.5vw;
 }
-
+/****************Image********************/
 img {
   padding-right: 1rem;
 }
 
+/****************************************/
+/*Header*/
+/****************************************/
 .topnav {
   overflow: hidden;
   margin: 3.5%;
 }
 .header-logo {
-    float: left;
+  float: left;
 }
 .main-navbar {
-    float: right;
+  float: right;
 }
 .topnav a {
   float: left;
@@ -48,8 +67,6 @@ img {
   padding: 12px 12px;
   margin: 5px;
   text-decoration: none;
-  font-size: 20px;
-  font-family: Roboto, sans-serif;
 }
 
 .topnav a:hover {
@@ -68,8 +85,13 @@ img {
   display: none;
 }
 
+/****************************************/
+/*Media header*/
+/****************************************/
 @media screen and (max-width: 768px) {
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
@@ -77,7 +99,9 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
+  .topnav.responsive {
+    position: relative;
+  }
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
@@ -90,16 +114,20 @@ img {
   }
 }
 
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
+@media screen and (max-width: 540px) {
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
     margin-top: -15px;
   }
-} 
+}
+
+/****************************************/
+/*Main*/
+/****************************************/
 
 main {
   font-size: 130%;
@@ -111,8 +139,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -137,8 +163,9 @@ main {
   font-family: var(--font-slab);
 }
 
-/* Modal form */
-
+/****************************************/
+/* Modal form/
+/****************************************/
 .button {
   background: #fe142f;
   margin-top: 0.5em;
@@ -341,6 +368,7 @@ input[data-error]::after {
   font-weight: normal;
 }
 
+/*intercation with JS*/
 .custom-select select {
   display: none;
 }
@@ -390,6 +418,7 @@ input[data-error]::after {
   z-index: 99;
 }
 
+/*intercation with JS*/
 /* Hide the items when the select box is closed: */
 .select-hide {
   display: none;
@@ -436,20 +465,23 @@ input[data-error]::after {
   z-index: 1;
 }
 .hero-headline {
-  font-size: 6rem;
-  font-weight: normal;
+  font-size: 96px;
+  font-weight: 500;
   white-space: nowrap;
 }
 .hero-text {
   width: 146%;
-  font-weight: normal;
+  font-size: 24px;
+  font-weight: 400;
   margin-top: 57px;
   padding: 0;
 }
 .btn-signup {
   outline: none;
   text-transform: capitalize;
-  font-size: 1.3rem;
+  font-size: 25px;
+  font-weight: 500;
+  font-family: var(--font-default);
   padding: 15px 23px;
   margin: 0;
   margin-top: 59px;
@@ -466,18 +498,28 @@ input[data-error]::after {
 .copyrights {
   color: #fe142f;
   padding: 0;
-  font-size: 1rem;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--font-roboto);
   margin: 60px 0 30px;
-  font-weight: bolder;
 }
+
 .hero-section > .btn-signup {
   display: none;
 }
+
+/****************************************/
+/*footer*/
+/****************************************/
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
   margin: 0 20px;
 }
+
+/****************************************/
+/*Media*/
+/****************************************/
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -517,6 +559,11 @@ footer {
   }
 }
 
+/****************************************/
+/*Animation*/
+/****************************************/
+
+/**************Open modal****************/
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -527,3 +574,6 @@ footer {
   }
 }
 
+/**************Close modal****************/
+
+/***************Nav bar*******************/

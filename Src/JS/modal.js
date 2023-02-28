@@ -23,8 +23,30 @@ function editNav() {
 /*Form validation*/
 /*********************************************/
 
-// fonction error display
-const errorDisplay = () => {};
+// fonction firstnameErrorDisplay
+const fistnameErrorDisplay = () => {
+  if (firstname == false) {
+    firstNameError.textContent =
+      "Veuillez entrer entre 2 et 25 caractères, sans caractères spéciaux";
+    first.style.border = "solid 2px red";
+  } else {
+    first.style.border = "none";
+    firstNameError.textContent = "";
+  }
+};
+
+// fonction firstnameErrorDisplay
+const lastnameErrorDisplay = () => {
+  if (lastname == false) {
+    console.log("ça marche");
+    lastNameError.textContent =
+      "Veuillez entrer entre 2 et 25 caractères, sans caractères spéciaux";
+    last.style.border = "solid 2px red";
+  } else {
+    last.style.border = "none";
+    lastNameError.textContent = "";
+  }
+};
 
 //erreur
 /*
@@ -46,30 +68,38 @@ const errorDisplay = () => {};
 //check firstname
 const firstnameChecker = (value) => {
   if (value.length > 0 && (value.length < 2 || value.length > 25)) {
-    console.log("erreur");
+    firstname = false;
+    fistnameErrorDisplay(firstname);
   } else if (!value.match(/^[a-zA-Z0-9_.-]*$/)) {
-    console.log("erreur");
+    firstname = false;
+    fistnameErrorDisplay(firstname);
   } else {
-    console.log("ça marche");
+    firstname = true;
+    fistnameErrorDisplay(firstname);
   }
 };
 
 //check lastname
 const lastnameChecker = (value) => {
   if (value.length > 0 && (value.length < 2 || value.length > 25)) {
-    console.log("ereur");
+    lastname = false;
+    lastnameErrorDisplay(lastname);
   } else if (!value.match(/^[a-zA-Z0-9_.-]*$/)) {
-    console.log("erreur");
+    lastname = false;
+    lastnameErrorDisplay(lastname);
   } else {
-    console.log("ça marche");
+    lastname = true;
+    lastnameErrorDisplay(lastname);
   }
 };
 
 //check email
 const emailChecker = (value) => {
   if (!value.match(/^[\w_-]+@[\w-]+\.[a-z]{2,4}$/i)) {
+    email = false;
     console.log("erreur");
   } else {
+    email = true;
     console.log("ça marche");
   }
 };
@@ -116,12 +146,12 @@ const closeModal = () => {
 
 //input firstname
 first.addEventListener("input", (e) => {
-  console.log(e.target.value);
+  firstnameChecker(e.target.value);
 });
 
 //input family name
 last.addEventListener("input", (e) => {
-  console.log(e.target.value);
+  lastnameChecker(e.target.value);
 });
 
 // input email
@@ -139,7 +169,48 @@ quantity.addEventListener("input", (e) => {
 
 //input cities
 
-//input CVG
+const checkBoxInput = document.querySelectorAll(".checkbox-input");
+
+checkBoxInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    switch (e.target.id) {
+      case "location1":
+        city = true;
+        console.log(e.target.value);
+        break;
+      case "location2":
+        city = true;
+        console.log(e.target.value);
+        break;
+      case "location3":
+        city = true;
+        console.log(e.target.value);
+        break;
+      case "location4":
+        city = true;
+        console.log(e.target.value);
+        break;
+      case "location5":
+        city = true;
+        console.log(e.target.value);
+        break;
+      case "location6":
+        city = true;
+        console.log(e.target.value);
+        break;
+      case "checkbox1":
+        generalConditions = true;
+        console.log(e.target.value);
+        break;
+      case "checkbox2":
+        acceptToGetMessage = true;
+        console.log(e.target.value);
+        break;
+      default:
+        null;
+    }
+  });
+});
 
 //Submit//
 sendForm.addEventListener("submit", (e) => {

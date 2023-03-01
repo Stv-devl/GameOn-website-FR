@@ -48,22 +48,41 @@ const lastnameErrorDisplay = () => {
   }
 };
 
-//erreur
-/*
-"Veuillez entrer entre 2 et 25 caractères,sans caractères spéciaux."
-"Veuillez entrer entre 2 et 25 caractères,sans caractères spéciaux."
-"Veuillez entrer un email valid au format monemail@example.com "
-"Vous devez entrer une date de naissance valide."
-"Nous n'avons pas fait autants de tournois"
+// fonction emailErrorDisplay
+const emailErrorDisplay = () => {
+  if (checkmail == false) {
+    emailError.textContent =
+      "Veuillez entrer un email valide au format monemail@example.com ";
+    email.style.border = "solid 2px red";
+  } else {
+    email.style.border = "none";
+    emailError.textContent = "";
+  }
+};
 
-//vide 
-"Veuillez entrer votre prénom."
-"Veuillez entrer votre nom de famille."
-"Veuillez renseigner votre email"
-"Vous devez entrer votre date de naissance."
-"Vous devez choisir une ville"
-"Vous devez acceptez les termes et conditions."
-*/
+// fonction birthdayErrorDisplay
+const birthdayErrorDisplay = () => {
+  if (birthday == false) {
+    birthdayError.textContent =
+      "Vous devez entrer une date de naissance valide, vous devez avoir plus de 13ans.";
+    birthdate.style.border = "solid 2px red";
+  } else {
+    birthdate.style.border = "none";
+    birthdayError.textContent = "";
+  }
+};
+
+// fonction tournementErrorDisplay
+const tournementErrorDisplay = () => {
+  if (tournement == false) {
+    tournementError.textContent =
+      "Le nombre de tournois doit être compris entre 1 et 20";
+    quantity.style.border = "solid 2px red";
+  } else {
+    quantity.style.border = "none";
+    tournementError.textContent = "";
+  }
+};
 
 //check firstname
 const firstnameChecker = (value) => {
@@ -74,7 +93,7 @@ const firstnameChecker = (value) => {
     firstname = false;
     fistnameErrorDisplay(firstname);
   } else {
-    firstname = true;
+    firstname = value;
     fistnameErrorDisplay(firstname);
   }
 };
@@ -96,30 +115,52 @@ const lastnameChecker = (value) => {
 //check email
 const emailChecker = (value) => {
   if (!value.match(/^[\w_-]+@[\w-]+\.[a-z]{2,4}$/i)) {
-    email = false;
-    console.log("erreur");
+    checkmail = false;
+    emailErrorDisplay(checkmail);
   } else {
-    email = true;
-    console.log("ça marche");
+    checkmail = true;
+    emailErrorDisplay(checkmail);
   }
 };
 
-//check birth day
-const birthdayChecker = (value) => {
-  if (!value.match(/^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{4}$/)) {
-    console.log("erreur");
+//check birthday
+const birthdayChecker = (value, yearChoice) => {
+  if (!value.match(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/)) {
+    birthday = false;
+    birthdayErrorDisplay(birthday);
+  } else if (yearChoice >= 2010 || yearChoice <= 1900) {
+    birthday = false;
+    birthdayErrorDisplay(birthday);
   } else {
-    console.log("ça marche");
+    birthday = value;
+    birthdayErrorDisplay(birthday);
   }
 };
 
 //check number of tournament
-const tournamentChecker = (value) => {};
+const tournamentChecker = (value) => {
+  if (value <= 0 || value > 20) {
+    tournement = false;
+    tournementErrorDisplay(tournement);
+  } else {
+    tournement = value;
+    tournementErrorDisplay(tournement);
+  }
+};
 
-//check cities
-
-//check SVG
-
+//check condition
+const condititionChecker = (value) => {
+  if (checkbox1.checked != true) {
+    checkCondition = false;
+    conditionError.textContent =
+      "Veuillez accepté les conditions d'utilisation";
+    conditionError.style.marginTop = "10px";
+  } else {
+    checkCondition = true;
+    conditionError.textContent = "";
+    conditionError.style.marginTop = "0px";
+  }
+};
 /**********************************************/
 /*Modal setting*/
 /*********************************************/
@@ -131,6 +172,7 @@ const launchModal = () => {
 // close modal form
 const closeModal = () => {
   modalbg.style.display = "none";
+  //remettre tout à 0 si on ferme la modale?
 };
 
 /**********************************************/
@@ -156,80 +198,43 @@ last.addEventListener("input", (e) => {
 
 // input email
 email.addEventListener("input", (e) => {
-  console.log(e.target.value);
+  emailChecker(e.target.value);
 });
 // input birthday
 birthdate.addEventListener("input", (e) => {
-  console.log(e.target.value);
+  let dateArray = e.target.value.split("-"); //do array with date
+  let yearChoice = dateArray[0]; //Keep the year
+  birthdayChecker(e.target.value, yearChoice);
 });
+
 // input tournament
 quantity.addEventListener("input", (e) => {
-  console.log(e.target.value);
+  tournamentChecker(e.target.value);
 });
 
 //input cities
+const cityInput = document.querySelectorAll(".city-input");
 
-const checkBoxInput = document.querySelectorAll(".checkbox-input");
-
-checkBoxInput.forEach((input) => {
+cityInput.forEach((input) => {
   input.addEventListener("input", (e) => {
-    switch (e.target.id) {
-      case "location1":
-        city = true;
-        console.log(e.target.value);
-        break;
-      case "location2":
-        city = true;
-        console.log(e.target.value);
-        break;
-      case "location3":
-        city = true;
-        console.log(e.target.value);
-        break;
-      case "location4":
-        city = true;
-        console.log(e.target.value);
-        break;
-      case "location5":
-        city = true;
-        console.log(e.target.value);
-        break;
-      case "location6":
-        city = true;
-        console.log(e.target.value);
-        break;
-      case "checkbox1":
-        generalConditions = true;
-        console.log(e.target.value);
-        break;
-      case "checkbox2":
-        acceptToGetMessage = true;
-        console.log(e.target.value);
-        break;
-      default:
-        null;
-    }
+    cityName = e.target.value;
   });
+});
+
+//input general condition
+checkbox1.addEventListener("input", (e) => {
+  condititionChecker(e.target.value);
+});
+
+//input get information
+checkbox2.addEventListener("input", (e) => {
+  console.log(e.target.value);
+  getinformations = e.target.value;
 });
 
 //Submit//
 sendForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  //if Firstname is not good add border color + red icone + texte
-
-  //if lastname is not good add border color + red icone + texte
-
-  //if email is not good add border color + red icone + texte
-
-  //if birthday is not good
-
-  // if input tournament is not good
-
-  // if cities are not good
-
-  // if CVG are not checked
-
-  //if everything good, send data, delete error messages and delete everything write in forms, open validation popup
 });
 
 // launch modal event when click on btn

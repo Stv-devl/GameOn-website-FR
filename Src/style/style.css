@@ -274,13 +274,6 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid var(--pink);
 }
-/* 
-input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
-} */
-
 .checkbox-label,
 .checkbox2-label {
   position: relative;
@@ -354,6 +347,7 @@ input[data-error]::after {
 }
 .close {
   position: absolute;
+  z-index: 10;
   right: 15px;
   top: 15px;
   width: 32px;
@@ -548,6 +542,36 @@ input[data-error]::after {
   display: none;
 }
 
+/*******register_card*******/
+
+.register_card {
+  display: none;
+  position: absolute;
+  top: 0%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 395px 0 20px 0;
+}
+.thanks_text {
+  font-size: 36px;
+  line-height: 60px;
+  text-align: center;
+  padding: 0 22%;
+}
+
+.btn_close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 182px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+}
+
 /****************************************/
 /*footer*/
 /****************************************/
@@ -613,6 +637,9 @@ footer {
     text-align: center;
     font-size: 10px;
   }
+  .content {
+    margin: 12% auto;
+  }
 }
 
 /****************************************/
@@ -629,7 +656,3 @@ footer {
     opacity: 1;
   }
 }
-
-/**************Close modal****************/
-
-/***************Nav bar*******************/

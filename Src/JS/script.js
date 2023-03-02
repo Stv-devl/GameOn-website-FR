@@ -2,12 +2,14 @@
 /*variables*/
 /*********************************************/
 const modalbg = document.querySelector(".bground");
-const cross = document.querySelector(".close");
 const modalBtn = document.querySelectorAll(".modal-btn");
+const closing = document.querySelectorAll(".closing");
 const formData = document.querySelectorAll(".formData");
 const form = document.querySelector("form");
 const error = document.querySelectorAll(".error");
-
+const inputs = document.querySelectorAll(".text-control");
+const emptyModale = document.querySelector(".modal-body");
+const content = document.querySelector(".content");
 let cityName = "new york";
 let tournement = 0;
 let checkCondition = true;
@@ -17,6 +19,7 @@ let firstname, lastname, checkmail, birthday;
 /**********************************************/
 /*navigation popup*/
 /*********************************************/
+
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -27,13 +30,32 @@ function editNav() {
 }
 
 /**********************************************/
+/*Modal setting*/
+/*********************************************/
+
+// launch modal form
+const launchModal = () => {
+  modalbg.style.display = "block";
+};
+// close modal form, include delete validation popup
+const closeModal = () => {
+  modalbg.style.display = "none";
+  emptyModale.style.opacity = "1";
+  register.style.display = "none";
+};
+//open validation popup
+const openValidation = () => {
+  emptyModale.style.opacity = "0"; //information in modale opacity to 0
+  register.style.display = "flex"; //display the validation popup
+};
+
+/**********************************************/
 /*Form validation*/
 /*********************************************/
 
-//input error display
-const errorDisplay = (message, itemId, boolean) => {
-  console.log((document.getElementById(itemId).style.border = "solid 2px red"));
-  if (!boolean) {
+//fonction errordisplay, if message is not empty get red border and error message. Else delete error message and border
+const errorDisplay = (message, itemId) => {
+  if (message != "") {
     document.getElementById(itemId).style.border = "solid 2px red";
     document.getElementById(itemId.concat("Error")).textContent = message;
   } else {
@@ -42,9 +64,7 @@ const errorDisplay = (message, itemId, boolean) => {
   }
 };
 
-//clean all input when we close the modal
-
-//check firstname
+//check firstname, if less than 2 or more than 25 & if its special characters, get error message, send message and id in errorDisplay()
 const firstnameChecker = (value, itemId) => {
   if (
     value.length > 0 &&
@@ -52,17 +72,15 @@ const firstnameChecker = (value, itemId) => {
   ) {
     errorDisplay(
       "Veuillez entrer entre 2 et 25 caractères, sans caractères spéciaux",
-      itemId,
-      false
+      itemId
     );
     firstname = null;
   } else {
     firstname = value;
-    errorDisplay("", itemId, true);
+    errorDisplay("", itemId);
   }
 };
-
-//check lastname
+//check lastname, if less than 2 or more than 25 & if its special characters, get error message, send message and id in errorDisplay()
 const lastnameChecker = (value, itemId) => {
   if (
     (value.length > 0 && value.length < 2) ||
@@ -71,34 +89,29 @@ const lastnameChecker = (value, itemId) => {
   ) {
     errorDisplay(
       "Veuillez entrer entre 2 et 25 caractères, sans caractères spéciaux",
-      itemId,
-      false
+      itemId
     );
     lastname = null;
   } else {
     lastname = value;
-    errorDisplay("", itemId, true);
+    errorDisplay("", itemId);
   }
 };
-
-//check email
+//check email , if its not email standard get error message, send message and id in errorDisplay()
 const emailChecker = (value, itemId) => {
   if (!value.match(/^[\w_-]+@[\w-]+\.[a-z]{2,4}$/i)) {
     checkmail = null;
     errorDisplay(
       "Veuillez entrer un email valide au format monemail@example.com",
-      itemId,
-      false
+      itemId
     );
   } else {
     checkmail = value;
-    errorDisplay("", itemId, true);
+    errorDisplay("", itemId);
   }
 };
-
-//check birthday
+//check birthday, if its not standard date & >2010 et <1900 =>  get error message, send message and id in errorDisplay()
 const birthdayChecker = (value, itemId, yearChoice) => {
-  console.log(itemId);
   if (
     yearChoice >= 2010 ||
     yearChoice <= 1900 ||
@@ -106,34 +119,29 @@ const birthdayChecker = (value, itemId, yearChoice) => {
   ) {
     errorDisplay(
       "Vous devez entrer une date de naissance valide, vous devez avoir plus de 13ans.",
-      itemId,
-      false
+      itemId
     );
     birthday = null;
   } else {
     birthday = value;
-    errorDisplay("", itemId, true);
+    errorDisplay("", itemId);
   }
 };
-
-//check number of tournament
+//check tournament, if tournement not between 0 and 20, get error message, send message and id in errorDisplay()
 const tournamentChecker = (value, itemId) => {
-  console.log(itemId);
   if (value < 0 || value > 20) {
     errorDisplay(
       "Le nombre de tournois doit être compris entre 0 et 20",
-      itemId,
-      false
+      itemId
     );
     tournement = null;
   } else {
     tournement = value;
-    errorDisplay("", itemId, true);
+    errorDisplay("", itemId);
   }
 };
-
-//check condition
-const condititionChecker = () => {
+//check condition, if not checked get error message and style, else true
+const conditionChecker = () => {
   if (!checkbox1.checked) {
     checkbox1Error.textContent =
       "Veuillez accepter les conditions d'utilisation";
@@ -148,56 +156,38 @@ const condititionChecker = () => {
   }
 };
 /**********************************************/
-/*Modal setting*/
-/*********************************************/
-
-// launch modal form
-const launchModal = () => {
-  modalbg.style.display = "block";
-};
-// close modal form
-const closeModal = () => {
-  modalbg.style.display = "none";
-  //remettre tout à 0 si on ferme la modale?
-};
-
-/**********************************************/
-/*Validation popup*/
-/*********************************************/
-
-//open validation
-//close validation
-
-/**********************************************/
 /*addeventlistener*/
 /*********************************************/
 
-//input firstname
+// launch modal fonction when click on btn (different button for mobile & desktop)
+modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+
+//close the modale when click on the cross & button (use for close validation popup)
+closing.forEach((btn) => btn.addEventListener("click", closeModal));
+
+//get the firstname value & id
 first.addEventListener("input", (e) => {
   firstnameChecker(e.target.value, e.target.id);
 });
-
-//input family name
+//get the lastname value & id
 last.addEventListener("input", (e) => {
   lastnameChecker(e.target.value, e.target.id);
 });
-
-// input email
+//get the email value & id
 email.addEventListener("input", (e) => {
   emailChecker(e.target.value, e.target.id);
 });
-// input birthday
+//get the birthday value & id & yearchoice
 birthdate.addEventListener("input", (e) => {
-  let yearChoice = e.target.value.split("-")[0]; //split the date and keep the year
+  let yearChoice = e.target.value.split("-")[0]; //split the date and keep the year for control the age
+  /*console.log(e.target.value.split("-")[0])*/
   birthdayChecker(e.target.value, e.target.id, yearChoice);
 });
-
-// input tournament
+// get the tournament value and id
 quantity.addEventListener("input", (e) => {
   tournamentChecker(e.target.value, e.target.id);
 });
-
-//input cities
+// get the city value
 const cityInput = document.querySelectorAll(".city-input");
 
 cityInput.forEach((input) => {
@@ -205,13 +195,11 @@ cityInput.forEach((input) => {
     cityName = e.target.value;
   });
 });
-
-//input general condition
+//lauch the fonction conditionChecker
 checkbox1.addEventListener("input", (e) => {
-  condititionChecker(e.target.value);
+  conditionChecker();
 });
-
-//input get information
+//if checkbox checked getinformation = true else = false
 checkbox2.addEventListener("input", (e) => {
   if (!checkbox2.checked) {
     getinformations = false;
@@ -219,9 +207,10 @@ checkbox2.addEventListener("input", (e) => {
   return (getinformations = true);
 });
 
-//Submit//
+//submit form
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  //if everyting is good we send the informations
   if (
     (firstname,
     lastname,
@@ -239,16 +228,23 @@ form.addEventListener("submit", (e) => {
       checkCondition,
       getinformations,
     };
-    console.log(keepData);
+    console.log(keepData); //just for know what is send
 
-    // effacer les données à la validation
+    inputs.forEach((input) => (input.value = "")); //empty all the inputs
+    checkbox2.value = "";
+    openValidation(); //launch validation popup
+
+    //empty validation variables
+    firstname = null;
+    lastname = null;
+    checkmail = null;
+    birthday = null;
+    checkCondition = null;
+    cityName = "new york";
+    tournement = 0;
+    checkCondition = true;
+    getinformations = false;
   } else {
-    console.log("veuillez remplir le formulaire correctement");
+    alert("veuillez remplir le formulaire correctement");
   }
 });
-
-// launch modal event when click on btn
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-//close the modale when click on the cross
-cross.addEventListener("click", closeModal);

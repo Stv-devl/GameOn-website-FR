@@ -5,7 +5,11 @@ const modalbg = document.querySelector(".bground");
 const cross = document.querySelector(".close");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const sendForm = document.querySelector(".btn-submit");
+const form = document.querySelector("form");
+let cityName = "new york";
+let tournement = 0;
+let checkCondition = true;
+let firstname, lastname, checkmail, birthday, getinformations;
 
 /**********************************************/
 /*navigation popup*/
@@ -25,7 +29,7 @@ function editNav() {
 
 // fonction firstnameErrorDisplay
 const fistnameErrorDisplay = () => {
-  if (firstname == false) {
+  if (firstname == null) {
     firstNameError.textContent =
       "Veuillez entrer entre 2 et 25 caractères, sans caractères spéciaux";
     first.style.border = "solid 2px red";
@@ -35,9 +39,9 @@ const fistnameErrorDisplay = () => {
   }
 };
 
-// fonction firstnameErrorDisplay
+// fonction lastnameErrorDisplay
 const lastnameErrorDisplay = () => {
-  if (lastname == false) {
+  if (lastname == null) {
     console.log("ça marche");
     lastNameError.textContent =
       "Veuillez entrer entre 2 et 25 caractères, sans caractères spéciaux";
@@ -50,7 +54,7 @@ const lastnameErrorDisplay = () => {
 
 // fonction emailErrorDisplay
 const emailErrorDisplay = () => {
-  if (checkmail == false) {
+  if (checkmail == null) {
     emailError.textContent =
       "Veuillez entrer un email valide au format monemail@example.com ";
     email.style.border = "solid 2px red";
@@ -62,7 +66,7 @@ const emailErrorDisplay = () => {
 
 // fonction birthdayErrorDisplay
 const birthdayErrorDisplay = () => {
-  if (birthday == false) {
+  if (birthday == null) {
     birthdayError.textContent =
       "Vous devez entrer une date de naissance valide, vous devez avoir plus de 13ans.";
     birthdate.style.border = "solid 2px red";
@@ -74,9 +78,9 @@ const birthdayErrorDisplay = () => {
 
 // fonction tournementErrorDisplay
 const tournementErrorDisplay = () => {
-  if (tournement == false) {
+  if (tournement == null) {
     tournementError.textContent =
-      "Le nombre de tournois doit être compris entre 1 et 20";
+      "Le nombre de tournois doit être compris entre 0 et 20";
     quantity.style.border = "solid 2px red";
   } else {
     quantity.style.border = "none";
@@ -87,10 +91,10 @@ const tournementErrorDisplay = () => {
 //check firstname
 const firstnameChecker = (value) => {
   if (value.length > 0 && (value.length < 2 || value.length > 25)) {
-    firstname = false;
+    firstname = null;
     fistnameErrorDisplay(firstname);
   } else if (!value.match(/^[a-zA-Z0-9_.-]*$/)) {
-    firstname = false;
+    firstname = null;
     fistnameErrorDisplay(firstname);
   } else {
     firstname = value;
@@ -101,13 +105,13 @@ const firstnameChecker = (value) => {
 //check lastname
 const lastnameChecker = (value) => {
   if (value.length > 0 && (value.length < 2 || value.length > 25)) {
-    lastname = false;
+    lastname = null;
     lastnameErrorDisplay(lastname);
   } else if (!value.match(/^[a-zA-Z0-9_.-]*$/)) {
-    lastname = false;
+    lastname = null;
     lastnameErrorDisplay(lastname);
   } else {
-    lastname = true;
+    lastname = value;
     lastnameErrorDisplay(lastname);
   }
 };
@@ -115,10 +119,10 @@ const lastnameChecker = (value) => {
 //check email
 const emailChecker = (value) => {
   if (!value.match(/^[\w_-]+@[\w-]+\.[a-z]{2,4}$/i)) {
-    checkmail = false;
+    checkmail = null;
     emailErrorDisplay(checkmail);
   } else {
-    checkmail = true;
+    checkmail = value;
     emailErrorDisplay(checkmail);
   }
 };
@@ -126,10 +130,10 @@ const emailChecker = (value) => {
 //check birthday
 const birthdayChecker = (value, yearChoice) => {
   if (!value.match(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/)) {
-    birthday = false;
+    birthday = null;
     birthdayErrorDisplay(birthday);
   } else if (yearChoice >= 2010 || yearChoice <= 1900) {
-    birthday = false;
+    birthday = null;
     birthdayErrorDisplay(birthday);
   } else {
     birthday = value;
@@ -140,7 +144,7 @@ const birthdayChecker = (value, yearChoice) => {
 //check number of tournament
 const tournamentChecker = (value) => {
   if (value <= 0 || value > 20) {
-    tournement = false;
+    tournement = null;
     tournementErrorDisplay(tournement);
   } else {
     tournement = value;
@@ -202,8 +206,7 @@ email.addEventListener("input", (e) => {
 });
 // input birthday
 birthdate.addEventListener("input", (e) => {
-  let dateArray = e.target.value.split("-"); //do array with date
-  let yearChoice = dateArray[0]; //Keep the year
+  let yearChoice = e.target.value.split("-")[0]; //split the date and keep the year
   birthdayChecker(e.target.value, yearChoice);
 });
 
@@ -233,8 +236,38 @@ checkbox2.addEventListener("input", (e) => {
 });
 
 //Submit//
-sendForm.addEventListener("submit", (e) => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
+  console.log(
+    firstname,
+    lastname,
+    checkmail,
+    birthday,
+    checkCondition,
+    cityName
+  );
+  if (
+    (firstname,
+    lastname,
+    checkmail,
+    birthday && checkCondition == true && tournement <= 20)
+  ) {
+    console.log("envoyé");
+    const keepData = {
+      firstname,
+      lastname,
+      checkmail,
+      birthday,
+      checkCondition,
+      cityName,
+      tournement,
+      checkCondition,
+      getinformations,
+    };
+    console.log(keepData);
+  } else {
+    console.log("ça ne marche pas");
+  }
 });
 
 // launch modal event when click on btn

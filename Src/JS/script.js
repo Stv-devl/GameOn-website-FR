@@ -4,22 +4,18 @@
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const closing = document.querySelectorAll(".closing");
-const formData = document.querySelectorAll(".formData");
 const form = document.querySelector("form");
-const error = document.querySelectorAll(".error");
 const inputs = document.querySelectorAll(".text-control");
 const emptyModale = document.querySelector(".modal-body");
-const content = document.querySelector(".content");
 let cityName = "new york";
 let tournement = 0;
 let checkCondition = true;
-let getinformations = false;
+let checked = false;
 let firstname, lastname, checkmail, birthday;
 
 /**********************************************/
 /*navigation popup*/
 /*********************************************/
-
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -155,6 +151,7 @@ const conditionChecker = () => {
     checkCondition = true;
   }
 };
+
 /**********************************************/
 /*addeventlistener*/
 /*********************************************/
@@ -199,12 +196,17 @@ cityInput.forEach((input) => {
 checkbox1.addEventListener("input", (e) => {
   conditionChecker();
 });
+
 //if checkbox checked getinformation = true else = false
+
 checkbox2.addEventListener("input", (e) => {
-  if (!checkbox2.checked) {
-    getinformations = false;
+  if (!checked) {
+    checked = true;
+    console.log(checked);
+  } else {
+    checked = false;
+    console.log(checked);
   }
-  return (getinformations = true);
 });
 
 //submit form
@@ -226,12 +228,14 @@ form.addEventListener("submit", (e) => {
       cityName,
       tournement,
       checkCondition,
-      getinformations,
+      checked,
     };
     console.log(keepData); //just for know what is send
 
-    inputs.forEach((input) => (input.value = "")); //empty all the inputs
-    checkbox2.value = "";
+    inputs.forEach((input) => (input.value = "")); //empty all the input
+
+    checkbox2.checked = false;
+
     openValidation(); //launch validation popup
 
     //empty validation variables
@@ -239,11 +243,10 @@ form.addEventListener("submit", (e) => {
     lastname = null;
     checkmail = null;
     birthday = null;
-    checkCondition = null;
     cityName = "new york";
     tournement = 0;
     checkCondition = true;
-    getinformations = false;
+    checked = false;
   } else {
     alert("veuillez remplir le formulaire correctement");
   }

@@ -391,6 +391,7 @@ input {
   width: 182px;
   height: 40px;
   margin-top: 20px;
+  padding: 0;
 }
 /* custom select styles */
 .custom-select {
@@ -637,8 +638,35 @@ footer {
     text-align: center;
     font-size: 10px;
   }
+
+  /*modal*/
   .content {
     margin: 12% auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .text-control {
+    height: 50px;
+  }
+  .checkbox-label .checkbox-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .checkbox-label .checkbox-icon::after {
+    width: 12px;
+    height: 12px;
+  }
+}
+@media screen and (max-width: 540px) {
+  .bground {
+    background-color: rgb(245 245 245 / 0%);
+  }
+  .cities {
+    padding-right: 0;
+  }
+  .checkbox-label {
+    margin: 9px 12px 0 12px;
   }
 }
 

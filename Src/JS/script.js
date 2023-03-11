@@ -7,6 +7,7 @@ const closing = document.querySelectorAll(".closing");
 const form = document.querySelector("form");
 const inputs = document.querySelectorAll(".text-control");
 const emptyModale = document.querySelector(".modal-body");
+const cityInput = document.querySelectorAll(".city-input");
 let cityName = "new york";
 let tournement = 0;
 let checkCondition = true;
@@ -33,16 +34,18 @@ function editNav() {
 const launchModal = () => {
   modalbg.style.display = "block";
 };
+
+//open validation popup
+const openValidation = () => {
+  emptyModale.style.opacity = "0"; //information in modale opacity to 0
+  register.style.display = "flex"; //display the validation popup
+};
+
 // close modal form, include delete validation popup
 const closeModal = () => {
   modalbg.style.display = "none";
   emptyModale.style.opacity = "1";
   register.style.display = "none";
-};
-//open validation popup
-const openValidation = () => {
-  emptyModale.style.opacity = "0"; //information in modale opacity to 0
-  register.style.display = "flex"; //display the validation popup
 };
 
 /**********************************************/
@@ -52,6 +55,8 @@ const openValidation = () => {
 //fonction errordisplay, if message is not empty get red border and error message. Else delete error message and border
 const errorDisplay = (message, itemId) => {
   if (message != "") {
+    /*  console.log(itemId);
+    console.log(itemId.concat("Error"));*/
     document.getElementById(itemId).style.border = "solid 2px red";
     document.getElementById(itemId.concat("Error")).textContent = message;
   } else {
@@ -62,8 +67,9 @@ const errorDisplay = (message, itemId) => {
 
 //check firstname, if less than 2 or more than 25 & if its special characters, get error message, send message and id in errorDisplay()
 const firstnameChecker = (value, itemId) => {
+  /*console.log(value.length);*/
   if (
-    value.length > 0 &&
+    value.length >= 0 &&
     (value.length < 2 || value.length > 25 || !value.match(/^[a-zA-Z0-9_.-]*$/))
   ) {
     errorDisplay(
@@ -79,7 +85,7 @@ const firstnameChecker = (value, itemId) => {
 //check lastname, if less than 2 or more than 25 & if its special characters, get error message, send message and id in errorDisplay()
 const lastnameChecker = (value, itemId) => {
   if (
-    (value.length > 0 && value.length < 2) ||
+    (value.length >= 0 && value.length < 2) ||
     value.length > 25 ||
     !value.match(/^[a-zA-Z0-9_.-]*$/)
   ) {
@@ -165,6 +171,7 @@ closing.forEach((btn) => btn.addEventListener("click", closeModal));
 //get the firstname value & id
 first.addEventListener("input", (e) => {
   firstnameChecker(e.target.value, e.target.id);
+  /*console.log(e.target.value, e.target.id);*/
 });
 //get the lastname value & id
 last.addEventListener("input", (e) => {
@@ -176,17 +183,21 @@ email.addEventListener("input", (e) => {
 });
 //get the birthday value & id & yearchoice
 birthdate.addEventListener("input", (e) => {
+  /*console.log(e.target.value);
+  console.log(e.target.value.split("-"));
+  console.log(e.target.value.split("-")[0]);*/
+
   let yearChoice = e.target.value.split("-")[0]; //split the date and keep the year for control the age
-  /*console.log(e.target.value.split("-")[0])*/
   birthdayChecker(e.target.value, e.target.id, yearChoice);
+  /*console.log(e.target.value, e.target.id, yearChoice)*/
 });
+
 // get the tournament value and id
 quantity.addEventListener("input", (e) => {
   tournamentChecker(e.target.value, e.target.id);
 });
-// get the city value
-const cityInput = document.querySelectorAll(".city-input");
 
+// get the city value
 cityInput.forEach((input) => {
   input.addEventListener("input", (e) => {
     cityName = e.target.value;
@@ -198,26 +209,38 @@ checkbox1.addEventListener("input", (e) => {
 });
 
 //if checkbox checked getinformation = true else = false
-
 checkbox2.addEventListener("input", (e) => {
   if (!checked) {
     checked = true;
-    console.log(checked);
   } else {
     checked = false;
-    console.log(checked);
   }
+  /*console.log(checked);*/
 });
 
 //submit form
 form.addEventListener("submit", (e) => {
   e.preventDefault();
-  //if everyting is good we send the informations
-  if (
-    (firstname,
+
+  /* console.log(
+    firstname,
     lastname,
     checkmail,
-    birthday && checkCondition == true && tournement <= 20)
+    birthday,
+    tournement,
+    cityName,
+    checkCondition,
+    checked
+  );*/
+
+  //if everyting is good we send the informations
+  if (
+    firstname &&
+    lastname &&
+    checkmail &&
+    birthday &&
+    tournement <= 20 &&
+    checkCondition == true
   ) {
     const keepData = {
       firstname,
